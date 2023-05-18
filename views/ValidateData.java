@@ -17,6 +17,14 @@ public class ValidateData {
         return !matcher.find();
     }
 
+    String patternPhone = "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$";
+    Pattern patternSecond = Pattern.compile(patternPhone, Pattern.MULTILINE);
     
+    public boolean checkPhoneNumber(String phoneNumber){
+        Matcher matcher = patternSecond.matcher(phoneNumber);
+        return !matcher.find();
+    }
+
+
 
 }

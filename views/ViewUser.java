@@ -10,8 +10,20 @@ public class ViewUser {
 
     private UserController userController;
     private ValidateData validate = new ValidateData();
+
     public ViewUser(UserController userController) {
         this.userController = userController;
+    }
+
+    public void commandsList() {
+        System.out.println("\u001B[32mСписок доступных команд: \n" +
+                "NONE - ничего не делать\n" +
+                "READ - вывести на экран данные пользователя по идентификатору\n" +
+                "CREATE - создать нового пользователя\n" +
+                "UPDATE - изменить существующего пользователя\n" +
+                "LIST - вывести список всех пользователей\n" +
+                "DELETE - удалить пользователя по идентификатору\n" +
+                "EXIT - выход из программы\n\u001B[37m");
     }
 
     public void run() {
@@ -22,7 +34,8 @@ public class ViewUser {
                 String command = prompt("Введите команду: ");
                 com = Commands.valueOf(command.toUpperCase());
 
-                if (com == Commands.EXIT) return;
+                if (com == Commands.EXIT)
+                    return;
                 switch (com) {
                     case CREATE:
                         createUser();
@@ -55,18 +68,24 @@ public class ViewUser {
     private void createUser() {
         userController.saveUser(inputUser());
     }
-    private User inputUser(){
+
+    private User inputUser() {
         String firstName;
         String lastName;
+        String phoneNumber;
         do {
             firstName = prompt("Имя: ");
-        } while(validate.checkFirstName(firstName));
+        } while (validate.checkFirstName(firstName));
         do {
             lastName = prompt("Фамилия: ");
-        } while( validate.checkLastName(lastName));
-        String phone = prompt("Номер телефона: ");
-        return  new User(firstName, lastName, phone);
+        } while (validate.checkLastName(lastName));
+        do {
+            phoneNumber = prompt("Номер телефона: ");
+        } while (validate.checkPhoneNumber(phoneNumber));
+
+        return new User(firstName, lastName, phoneNumber);
     }
+
     private String readUser() {
         String id = prompt("Идентификатор пользователя: ");
         try {
